@@ -122,11 +122,12 @@ class ItemEnterEventListener(EventListener):
         data = event.get_data()
         action = data
         Utils.notify("HASDASD", "ASDASD", )
-        Utils.kak = "KAK"
+       
         if action == "HCON":
             return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
+             Utils.kak = "KAK"
             return extension.hotcorners.hcOff()
 
 class SystemExitEventListener(EventListener):
