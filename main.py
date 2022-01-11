@@ -27,6 +27,7 @@ import subprocess
 ##function to get current hot corners
 ##function to set hot corners
 class Utils:
+    kak = "Disable"
     @staticmethod
     def get_path(filename):
         current_dir = pathlib.Path(__file__).parent.absolute()
@@ -50,7 +51,7 @@ class Utils:
         )
 
 class HotCorners():
-    kak = "Disable"
+    
     def getHCSettings(self):
         currentHCSettings = []
         for hc in self.hclist:
