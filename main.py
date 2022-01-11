@@ -27,40 +27,10 @@ import subprocess
 ##function to get current hot corners
 ##function to set hot corners
 class Utils:
-    hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
-    currSettings = ""
     @staticmethod
     def get_path(filename):
         current_dir = pathlib.Path(__file__).parent.absolute()
-        return f"{current_dir}/{filename}"
-
-    @staticmethod
-    def getHCSettings():
-        currentHCSettings = []
-        process = subprocess.Popen(
-            ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
-        output = process.stdout.readline().decode('utf-8').strip()
-        for hc in Utils.hclist:
-            process = subprocess.Popen(['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', hc], stdout=subprocess.PIPE)
-            output = process.stdout.readline().decode('utf-8').strip()
-            if output:
-                currentHCSettings.append(output)
-        return(currentHCSettings)
-
-    @staticmethod
-    def setHCSettings(setOn):
-        if setOn:
-            if len(Utils.currSettings) == len(Utils.hclist):
-                Utils.notify("ON", "trying setting on")
-                for i in range(0, len(Utils.currSettings)):
-                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + Utils.currSettings[i])
-        else:
-            Utils.currSettings = Utils.getHCSettings()
-            Utils.notify("OFF", "trying setting off")
-            if len(Utils.currSettings) == len(Utils.hclist):
-                for i in range(0, len(Utils.currSettings)):
-                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + '')
-            
+        return f"{current_dir}/{filename}"       
     @staticmethod
     def notify(title, message): ##Thanks to plibither8 from nordvpn extension :)
         Notify.init("eOSHotCornersExt")
@@ -80,14 +50,37 @@ class Utils:
         )
 
 class HotCorners():
+    def __init__(self):
+        self.hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
+        self.currSettings = self.getHCSettings()
+        
+
+    def getHCSettings():
+        currentHCSettings = []
+        process = subprocess.Popen(
+            ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
+        output = process.stdout.readline().decode('utf-8').strip()
+        for hc in Utils.hclist:
+            process = subprocess.Popen(['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', hc], stdout=subprocess.PIPE)
+            output = process.stdout.readline().decode('utf-8').strip()
+            if output:
+                currentHCSettings.append(output)
+        return(currentHCSettings)
 
     def hcOn(self):
         #turn hcsettings on
-        Utils.setHCSettings(True)
+        if len(self.currSettings) == len(self.hclist):
+            Utils.notify("ON", "trying setting on")
+            for i in range(0, len(self.currSettings)):
+                subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i] + " " + self.currSettings[i])
 
     def hcOff(self):
         #turn hcsettings off
-        Utils.setHCSettings(False)
+        currSettings = Utils.getHCSettings()
+        Utils.notify("OFF", "trying setting off")
+        if len(Utils.currSettings) == len(hclist):
+            for i in range(0, len(self.currSettings)):
+                subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i]+ " " + '')
 
 
 class HotCornersExtension(Extension):
@@ -100,7 +93,6 @@ class HotCornersExtension(Extension):
         self.hotcorners = HotCorners()
         #gsettings variables
         self.currSettings = []
-        Utils.notify("LOADED", "LOADED")
 
 
 
