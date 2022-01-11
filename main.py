@@ -37,10 +37,10 @@ class Utils:
     def getHCSettings():
         process = subprocess.Popen(
             ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
-            output = process.stdout.readline().decode('utf-8').strip()
+        output = process.stdout.readline().decode('utf-8').strip()
 
 
-        print("")
+        print(output)
 
     @staticmethod
     def setHCSettings(isOn):
@@ -49,7 +49,20 @@ class Utils:
     @staticmethod
     def notify(title, message): ##Thanks to plibither8 from nordvpn extension :)
         Notify.init("eOSHotCornersExt")
-        notification = Notify.Notification.new(title, message, Utils.get_path("images/icon.svg"))
+        notification = Notify.Notification.new(title, message, Utils.get_path("images/logo.png"))
+
+    @staticmethod
+    def create_item(name, icon, keyword, description, on_enter):
+        return (
+            keyword,
+            ExtensionResultItem(
+                name=name,
+                description=description,
+                icon=Utils.get_path("images/logo.png"),
+                on_enter=RunScriptAction(on_enter, None),
+                #            on_enter=RunScriptAction('xfce4-session-logout --{}'.format(on_enter), None),
+            )
+        )
 
 class HotCorners():
     def hcOn(self):
@@ -76,6 +89,8 @@ class HotCornersExtension(Extension):
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         items = []
+        argument = event.get_argument() or ""
+        command, arg = (argument.split(" ") + [None])[:2]
         items.extend(
             [
                 ExtensionResultItem(
