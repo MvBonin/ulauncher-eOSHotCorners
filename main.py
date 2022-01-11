@@ -51,10 +51,12 @@ class Utils:
     def setHCSettings(setOn):
         if setOn:
             if len(Utils.currSettings) == len(Utils.hclist):
+                Utils.notify("ON", "trying setting on")
                 for i in range(0, len(Utils.currSettings)):
-                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + currSettings[i])
+                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + Utils.currSettings[i])
         else:
             Utils.currSettings = Utils.getHCSettings()
+            Utils.notify("OFF", "trying setting off")
             if len(Utils.currSettings) == len(Utils.hclist):
                 for i in range(0, len(Utils.currSettings)):
                     subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + '')
