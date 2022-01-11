@@ -104,13 +104,13 @@ class KeywordQueryEventListener(EventListener):
                     icon = Utils.get_path("images/logo.png"),
                     name = "Enable",
                     description = "Turn Hot Corners ON in elementary OS.",
-                    on_enter=ExtensionCustomAction({"HCON"}),
+                    on_enter=ExtensionCustomAction({"action": "HCON"}),
                 ),
                 ExtensionResultItem(
                     icon = Utils.get_path("images/logo.png"),
                     name = Utils.kak,
                     description = "Turn Hot Corners OFF in elementary OS.",
-                    on_enter=ExtensionCustomAction({"HCOFF"}),
+                    on_enter=ExtensionCustomAction({"action": "HCOFF"}),
                 ),
             ]
         )
@@ -120,8 +120,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
     def on_event(self, event, extension):
         data = event.get_data()
-        action = data
-        Utils.notify("HASDASD", "ASDASD", )
+        action = data["action"]
        
         if action == "HCON":
             return extension.hotcorners.hcOn()
