@@ -55,7 +55,7 @@ class HotCorners():
         self.currSettings = self.getHCSettings()
         
 
-    def getHCSettings():
+    def getHCSettings(self):
         currentHCSettings = []
         process = subprocess.Popen(
             ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
@@ -91,8 +91,6 @@ class HotCornersExtension(Extension):
         self.subscribe(SystemExitEvent, SystemExitEventListener())
         self.subscribe(ItemEnterEvent, ItemEnterEventListener())
         self.hotcorners = HotCorners()
-        #gsettings variables
-        self.currSettings = []
 
 
 
