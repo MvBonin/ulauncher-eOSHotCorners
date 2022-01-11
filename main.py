@@ -79,13 +79,13 @@ class KeywordQueryEventListener(EventListener):
         items.extend(
             [
                 ExtensionResultItem(
-                    icon = Utils.get_path("images/icon.svg"),
+                    icon = Utils.get_path("images/logo.png"),
                     name = "Enable",
                     description = "Turn Hot Corners ON in elementary OS.",
                     on_enter=ExtensionCustomAction({"action": "HCON"}),
                 ),
                 ExtensionResultItem(
-                    icon = Utils.get_path("images/icon.svg"),
+                    icon = Utils.get_path("images/logo.png"),
                     name = "Disable",
                     description = "Turn Hot Corners OFF in elementary OS.",
                     on_enter=ExtensionCustomAction({"action": "HCOFF"}),

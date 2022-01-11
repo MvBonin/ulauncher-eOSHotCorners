@@ -3,7 +3,7 @@
     "name": "eOSHotCorners",
     "description": "Turn  hot corners on and off in elementary OS",
     "developer_name": "Markwart v. Bonin",
-    "icon": "images/icon.svg",
+    "icon": "images/logo.png",
     "preferences": [
       {
         "id": "hotcorners",
