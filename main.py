@@ -50,11 +50,7 @@ class Utils:
         )
 
 class HotCorners():
-    def __init__(self):
-        super(HotCorners, self).__init__()
-        self.hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
-        self.currSettings = self.getHCSettings()
-    
+      
     def getHCSettings(self):
         currentHCSettings = []
         process = subprocess.Popen(
@@ -82,6 +78,10 @@ class HotCorners():
             for i in range(0, len(self.currSettings)):
                 subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i]+ " " + '')
 
+    def __init__(self):
+        #super(HotCorners, self).__init__()
+        self.hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
+        self.currSettings = self.getHCSettings()
 
 class HotCornersExtension(Extension):
     def __init__(self):
@@ -124,11 +124,9 @@ class ItemEnterEventListener(EventListener):
         action = data["action"]
 
         if action == "HCON":
-            Utils.notify("ACTION", "ACTIONON")
             return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
-            Utils.notify("ACTION", "ACTIONOFF")
             return extension.hotcorners.hcOff()
 
 class SystemExitEventListener(EventListener):
