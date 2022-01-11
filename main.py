@@ -27,7 +27,6 @@ import subprocess
 ##function to get current hot corners
 ##function to set hot corners
 class Utils:
-    kak = "Disable"
     @staticmethod
     def get_path(filename):
         current_dir = pathlib.Path(__file__).parent.absolute()
@@ -70,7 +69,6 @@ class HotCorners():
     def hcOff(self):
         #turn hcsettings off
         currSettings = self.getHCSettings()
-        Utils.kak = self.currSettings[4]
         if len(self.currSettings) == len(self.hclist):
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior  ' + self.hclist[i]+ " " + 'none')
@@ -106,7 +104,7 @@ class KeywordQueryEventListener(EventListener):
                 ),
                 ExtensionResultItem(
                     icon = Utils.get_path("images/logo.png"),
-                    name = Utils.kak,
+                    name = "Disable",
                     description = "Turn Hot Corners OFF in elementary OS.",
                     on_enter=ExtensionCustomAction({"action": "HCOFF"}),
                 ),
@@ -128,7 +126,7 @@ class ItemEnterEventListener(EventListener):
 
 class SystemExitEventListener(EventListener):
     def on_event(self, event, extension):
-        print("shutting down")
+        return extension.hotcorners.hcOn()
 
 
 if __name__ == "__main__":
