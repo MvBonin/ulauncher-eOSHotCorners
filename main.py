@@ -63,9 +63,8 @@ class HotCorners():
 
     def hcOn(self):
         #turn hcsettings on
-        Utils.notify("ON", "trying setting off")
         if len(self.currSettings) == len(self.hclist):
-            Utils.notify("ON", "trying setting on")
+            Utils.kak = "setting on"
             for i in range(0, len(self.currSettings)):
                 subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i] + " " + self.currSettings[i])
 
@@ -74,6 +73,7 @@ class HotCorners():
         currSettings = self.getHCSettings()
         Utils.notify("OFF", "trying setting off")
         if len(self.currSettings) == len(self.hclist):
+            Utils.kak = "setting off"
             for i in range(0, len(self.currSettings)):
                 subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i]+ " " + '')
 
@@ -126,7 +126,6 @@ class ItemEnterEventListener(EventListener):
             return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
-            Utils.kak = "KAK"
             return extension.hotcorners.hcOff()
 
 class SystemExitEventListener(EventListener):
