@@ -50,7 +50,7 @@ class Utils:
         )
 
 class HotCorners():
-
+    kak = "Disable"
     def getHCSettings(self):
         currentHCSettings = []
         for hc in self.hclist:
@@ -107,7 +107,7 @@ class KeywordQueryEventListener(EventListener):
                 ),
                 ExtensionResultItem(
                     icon = Utils.get_path("images/logo.png"),
-                    name = "Disable",
+                    name = Utils.kak,
                     description = "Turn Hot Corners OFF in elementary OS.",
                     on_enter=ExtensionCustomAction({"HCOFF"}),
                 ),
@@ -121,6 +121,7 @@ class ItemEnterEventListener(EventListener):
         data = event.get_data()
         action = data
         Utils.notify("HASDASD", "ASDASD", )
+        Utils.kak = "KAK"
         if action == "HCON":
             return extension.hotcorners.hcOn()
 
