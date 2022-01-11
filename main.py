@@ -53,10 +53,7 @@ class HotCorners():
 
     def getHCSettings(self):
         currentHCSettings = []
-        process = subprocess.Popen(
-            ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
-        output = process.stdout.readline().decode('utf-8').strip()
-        for hc in Utils.hclist:
+        for hc in self.hclist:
             process = subprocess.Popen(['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', hc], stdout=subprocess.PIPE)
             output = process.stdout.readline().decode('utf-8').strip()
             if output:
