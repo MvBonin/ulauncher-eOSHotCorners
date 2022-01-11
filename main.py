@@ -100,6 +100,7 @@ class HotCornersExtension(Extension):
         self.hotcorners = HotCorners()
         #gsettings variables
         self.currSettings = []
+        Utils.notify("LOADED", "LOADED")
 
 
 
