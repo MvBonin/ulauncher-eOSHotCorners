@@ -33,6 +33,12 @@ bottomleft = ""
 ##function to set hot corners
 class Utils:
     hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
+
+    @staticmethod
+    def get_path(filename):
+        current_dir = pathlib.Path(__file__).parent.absolute()
+        return f"{current_dir}/{filename}"
+        
     @staticmethod
     def getHCSettings():
         process = subprocess.Popen(
