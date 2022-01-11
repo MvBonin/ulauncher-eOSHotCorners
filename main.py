@@ -17,11 +17,6 @@ import subprocess
 
 
 
-#gsettings variables
-topright = ""
-topleft = ""
-bottomright = ""
-bottomleft = ""
 
 
 ##on init read hot corners
@@ -33,25 +28,37 @@ bottomleft = ""
 ##function to set hot corners
 class Utils:
     hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
-
+    currSettings = ""
     @staticmethod
     def get_path(filename):
         current_dir = pathlib.Path(__file__).parent.absolute()
         return f"{current_dir}/{filename}"
-        
+
     @staticmethod
     def getHCSettings():
+        currentHCSettings = []
         process = subprocess.Popen(
             ['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', 'hotcorner-topleft'], stdout=subprocess.PIPE)
         output = process.stdout.readline().decode('utf-8').strip()
-
-
-        print(output)
+        for hc in Utils.hclist:
+            process = subprocess.Popen(['gsettings', 'get', 'org.pantheon.desktop.gala.behavior', hc], stdout=subprocess.PIPE)
+            output = process.stdout.readline().decode('utf-8').strip()
+            if output:
+                currentHCSettings.append(output)
+        return(currentHCSettings)
 
     @staticmethod
-    def setHCSettings(isOn):
-        print("")
-    
+    def setHCSettings(setOn):
+        if setOn:
+            if len(Utils.currSettings) == len(Utils.hclist):
+                for i in range(0, len(Utils.currSettings)):
+                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + currSettings[i])
+        else:
+            Utils.currSettings = Utils.getHCSettings()
+            if len(Utils.currSettings) == len(Utils.hclist):
+                for i in range(0, len(Utils.currSettings)):
+                    subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' +Utils.hclist[i]+ " " + '')
+            
     @staticmethod
     def notify(title, message): ##Thanks to plibither8 from nordvpn extension :)
         Notify.init("eOSHotCornersExt")
@@ -71,6 +78,7 @@ class Utils:
         )
 
 class HotCorners():
+
     def hcOn(self):
         #turn hcsettings on
         Utils.setHCSettings(True)
@@ -88,7 +96,8 @@ class HotCornersExtension(Extension):
         self.subscribe(SystemExitEvent, SystemExitEventListener())
         self.subscribe(ItemEnterEvent, ItemEnterEventListener())
         self.hotcorners = HotCorners()
-
+        #gsettings variables
+        self.currSettings = []
 
 
 
@@ -122,7 +131,7 @@ class ItemEnterEventListener(EventListener):
         action = data["action"]
 
         if action == "HCON":
-            return RenderResultListAction(extension.get_country_ext_result_items())
+            return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
             return extension.hotcorners.hcOff()
