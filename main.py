@@ -62,6 +62,7 @@ class HotCorners():
 
     def hcOn(self):
         #turn hcsettings on
+        Utils.notify("ON", "trying setting off")
         if len(self.currSettings) == len(self.hclist):
             Utils.notify("ON", "trying setting on")
             for i in range(0, len(self.currSettings)):
@@ -117,6 +118,7 @@ class KeywordQueryEventListener(EventListener):
 
 class ItemEnterEventListener(EventListener):
     def on_event(self, event, extension):
+        Utils.notify("EVENT", "EVENT")
         data = event.get_data()
         action = data["action"]
 
