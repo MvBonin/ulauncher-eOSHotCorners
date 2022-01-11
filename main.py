@@ -133,9 +133,11 @@ class ItemEnterEventListener(EventListener):
         action = data["action"]
 
         if action == "HCON":
+            Utils.notify("ACTION", "ACTIONON")
             return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
+            Utils.notify("ACTION", "ACTIONOFF")
             return extension.hotcorners.hcOff()
 
 class SystemExitEventListener(EventListener):
