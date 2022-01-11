@@ -51,10 +51,10 @@ class Utils:
 
 class HotCorners():
     def __init__(self):
+        super(HotCorners, self).__init__()
         self.hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
         self.currSettings = self.getHCSettings()
-        
-
+    
     def getHCSettings(self):
         currentHCSettings = []
         process = subprocess.Popen(
