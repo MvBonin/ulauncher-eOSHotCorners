@@ -76,9 +76,9 @@ class HotCorners():
 
     def hcOff(self):
         #turn hcsettings off
-        currSettings = Utils.getHCSettings()
+        currSettings = self.getHCSettings()
         Utils.notify("OFF", "trying setting off")
-        if len(Utils.currSettings) == len(hclist):
+        if len(self.currSettings) == len(self.hclist):
             for i in range(0, len(self.currSettings)):
                 subprocess.Popen('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i]+ " " + '')
 
