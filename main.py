@@ -34,7 +34,9 @@ class Utils:
     @staticmethod
     def notify(title, message): ##Thanks to plibither8 from nordvpn extension :)
         Notify.init("eOSHotCornersExt")
-        notification = Notify.Notification.new(title, message, Utils.get_path("images/logo.png"))
+        notification = Notify.Notification.new(title, message, Utils.get_path("images/logo.png"),)
+        notification.set_timeout(1000)
+        notification.show()
 
     @staticmethod
     def create_item(name, icon, keyword, description, on_enter):
@@ -63,6 +65,7 @@ class HotCorners():
     def hcOn(self):
         #turn hcsettings on
         if len(self.currSettings) == len(self.hclist):
+            Utils.notify("Pantheon Hot Corners Extension", "Setting Hot Corners to on.", )
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i] + " " + self.currSettings[i])
 
@@ -70,6 +73,7 @@ class HotCorners():
         #turn hcsettings off
         currSettings = self.getHCSettings()
         if len(self.currSettings) == len(self.hclist):
+            Utils.notify("Pantheon Hot Corners Extension", "Setting Hot Corners to off.", )
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior  ' + self.hclist[i]+ " " + 'none')
 
