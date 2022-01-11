@@ -127,7 +127,7 @@ class ItemEnterEventListener(EventListener):
             return extension.hotcorners.hcOn()
 
         if action == "HCOFF":
-             Utils.kak = "KAK"
+            Utils.kak = "KAK"
             return extension.hotcorners.hcOff()
 
 class SystemExitEventListener(EventListener):
