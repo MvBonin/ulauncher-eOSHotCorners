@@ -50,7 +50,7 @@ class Utils:
         )
 
 class HotCorners():
-      
+
     def getHCSettings(self):
         currentHCSettings = []
         process = subprocess.Popen(
@@ -90,7 +90,7 @@ class HotCornersExtension(Extension):
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
         self.subscribe(SystemExitEvent, SystemExitEventListener())
         self.subscribe(ItemEnterEvent, ItemEnterEventListener())
-        self.hotcorners = HotCorners()
+        #self.hotcorners = HotCorners()
 
 
 
