@@ -127,4 +127,4 @@ class SystemExitEventListener(EventListener):
 
 
 if __name__ == "__main__":
-    HotCorners().run()
+    HotCornersExtension().run()

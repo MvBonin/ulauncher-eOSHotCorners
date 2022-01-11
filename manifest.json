@@ -9,7 +9,7 @@
         "id": "hotcorners",
         "type": "keyword",
         "name": "eOSHotCorners",
-        "description": "Hot Corners shortcut",
+        "description": "elementary OS / Pantheon - Hot Corners shortcut",
         "default_value": "hc"
       }
     ]
