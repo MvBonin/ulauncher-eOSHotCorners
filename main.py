@@ -104,7 +104,7 @@ class HotCorners():
     def hcOff(self):
         #turn hcsettings off
         currSettings = self.getHCSettings()
-        if len(self.currSettings) == len(self.hclist):
+        if len(self.currSettings) == len(self.hclist) and self.isOn():
             Utils.notify("Pantheon Hot Corners Extension", "Setting Hot Corners to off.", )
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior  ' + self.hclist[i]+ " " + 'none')
