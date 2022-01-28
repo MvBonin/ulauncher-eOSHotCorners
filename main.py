@@ -2,6 +2,7 @@ import json
 import os
 import os.path
 import pathlib
+import json
 from gi.repository import Notify
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
@@ -30,7 +31,7 @@ class Utils:
     @staticmethod
     def get_path(filename):
         current_dir = pathlib.Path(__file__).parent.absolute()
-        return f"{current_dir}/{filename}"       
+        return f"{current_dir}/{filename}"
     @staticmethod
     def notify(title, message): ##Thanks to plibither8 from nordvpn extension :)
         Notify.init("eOSHotCornersExt")
@@ -50,6 +51,30 @@ class Utils:
                 #            on_enter=RunScriptAction('xfce4-session-logout --{}'.format(on_enter), None),
             )
         )
+    @staticmethod
+    def get_conf_file_name():
+        return str(os.environ['HOME'] + "/.config/ulauncher/hcSettings.json")
+
+    @staticmethod
+    def get_list_from_json(input):
+        return json.loads(input)
+
+    @staticmethod
+    def save_to_json(jsondata, filename):
+        #Save Settings to json file
+        print("Saving to json: " + filename)
+        with open(filename, "w") as json_file:
+            json.dump(jsondata, json_file)
+    
+    @staticmethod
+    def load_from_json(filename):
+        #load settings from json
+        print("Loading from json: " + filename)
+        with open(filename) as json_file:
+            data = json.load(json_file)
+            json_file.close()
+            return data
+            
 
 class HotCorners():
     
@@ -62,10 +87,17 @@ class HotCorners():
                 currentHCSettings.append(output)
         return(currentHCSettings)
 
+    def isOn(self):
+        for c in self.currSettings:
+            if str(c) != "'none'":
+                return True
+        return False
+
+
     def hcOn(self):
         #turn hcsettings on
         if len(self.currSettings) == len(self.hclist):
-            Utils.notify("Pantheon Hot Corners Extension", "Setting Hot Corners to on.", )
+            Utils.notify("Pantheon HotCorners Extension", "Setting Hot Corners to on.", )
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior ' + self.hclist[i] + " " + self.currSettings[i])
 
@@ -76,11 +108,26 @@ class HotCorners():
             Utils.notify("Pantheon Hot Corners Extension", "Setting Hot Corners to off.", )
             for i in range(0, len(self.currSettings)):
                 os.system('gsettings set org.pantheon.desktop.gala.behavior  ' + self.hclist[i]+ " " + 'none')
+            Utils.save_to_json(self.currSettings, Utils.get_conf_file_name())
 
     def __init__(self):
         #super(HotCorners, self).__init__()
         self.hclist = ["hotcorner-topleft", "hotcorner-custom-command", "hotcorner-topright", "hotcorner-bottomright", "hotcorner-bottomleft"]
         self.currSettings = self.getHCSettings()
+        #Check, if enabled. If not, and json file exists, load json to memory.
+        if self.isOn():
+            print("ON")
+        else:
+            print("OFF")
+            if os.path.exists(Utils.get_conf_file_name()):
+                #load settings from last time disabling
+                data = Utils.load_from_json(Utils.get_conf_file_name())
+                self.currSettings = data
+                print("eOSHotCorners: Loaded data from json on startup")
+                for k in data:
+                    print(k)
+                
+
 
 class HotCornersExtension(Extension):
     def __init__(self):
@@ -130,7 +177,8 @@ class ItemEnterEventListener(EventListener):
 
 class SystemExitEventListener(EventListener):
     def on_event(self, event, extension):
-        return extension.hotcorners.hcOn()
+        print("Closing")
+        #return extension.hotcorners.hcOn()
 
 
 if __name__ == "__main__":
